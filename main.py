@@ -1,48 +1,51 @@
 import pygame
 from pygame.locals import *
-
 from player import *
+from entity_factory import *
+import globals; from globals import *
 
-pygame.init()
-pygame.font.init()
+globals.initialize()
 
-screen_width = 640
-screen_height = 480
-screen = pygame.display.set_mode((screen_width, screen_height))
+if (__name__ == "__main__"):
 
-clock = pygame.time.Clock()
+    pygame.init()
+    # pygame.font.init()
 
-player = Player(Vector2(screen_width/2-24, screen_height/2-35), 48, 70, 3, 0.8)
+    SCREEN_WIDTH = 640
+    SCREEN_HEIGHT = 480
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-player.set_limit(Vector2(0, screen_width-48), Vector2(0, screen_height-70))
+    clock = pygame.time.Clock()
 
-image = pygame.image.load("sprites\spaceship.png")
-player.load_sprite(image)
+    player = Player(Vector2(SCREEN_WIDTH/2-24,
+                    SCREEN_HEIGHT/2-35), 48, 70, 3, 0.8)    
 
-while True:
-    # Process player inputs.
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            raise SystemExit
+    # Set player movement limit
+    player.set_limit(Vector2(0, SCREEN_WIDTH-48), Vector2(0, SCREEN_HEIGHT-70))
 
-    # Do logical updates here.
-    # ...
-    player.update()     # Update player position
+    image = pygame.image.load("sprites/spaceship.png")  # Set sprite for player
+    player.load_sprite(image)  # Load sprite to player instance
 
-    for bullet in player.bullets:
-        bullet.update()
+    entiryFactory = EntityFactory()
 
-    
 
-    screen.fill("black")  # Fill the display with a solid color
+    while True:
+        # Process player inputs.
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                raise SystemExit
 
-    # Render the graphics here.
-    # ...
+        # Do logical updates here.
+        # ...
+        player.update()     # Update player position        
+        entiryFactory.update()
 
-    player.draw(screen)    # Draw player on the screen
-    for bullet in player.bullets:
-        bullet.draw(screen)
+        # Render the graphics here.
+        # ...
 
-    pygame.display.flip()  # Refresh on-screen display
-    clock.tick(60)         # wait until next frame (at 60 FPS)
+        screen.fill("black")  # Fill the display with a solid color
+        player.draw(screen)    # Draw player on the screen
+
+        pygame.display.flip()  # Refresh on-screen display
+        clock.tick(60)         # wait until next frame (at 60 FPS)

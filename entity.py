@@ -1,6 +1,5 @@
-from pygame import Vector2
-
 import pygame
+from pygame import Vector2
 
 
 class Entity:
@@ -25,7 +24,7 @@ class Entity:
         else:
             screen.blit(self.sprite, self.position)
             if self.velocity.x == self.speed:
-                self.sprite = pygame.transform.flip(self.sprite, True, False)
+                self.sprite = pygame.transform.flip(self.sprite, True, False)        
 
     def load_sprite(self, sprite) -> None:
         self.sprite = pygame.transform.scale(sprite, (self.width, self.height))
